@@ -1,14 +1,34 @@
 angular.module('starter.services', [])
 
-.factory('User', function($http) {
-  
-	var urlBase = 'https://sis.cejam.org.br/cejam';
-	//var urlBase = 'http://localhost:8100/api';
-	var User = {};
+.constant('ApiEndpoint', {
+	url: 'https://sis.cejam.org.br/cejam'
+	//url: 'http://localhost:8100/api'
+})
 
-	User.find = function (user) {		
-		return $http.post(urlBase + '/usuarios/login_json?rnd='+new Date().getTime(), user);
+.factory('User', function($http, ApiEndpoint) {
+  
+  	var User = {};
+
+	User.find = function (user) {
+		return $http.post(ApiEndpoint.url + '/usuarios/login_json?rnd='+new Date().getTime(), user);
+	};
+
+	User.insertDevId = function (user, devId) {
+		var data = { 'user': user, 'devId': devId, 'os': ionic.Platform.platform() };
+		
+		return $http.post(ApiEndpoint.url + '/usuarios/insert_dev_id?rnd='+new Date().getTime(), data);
 	};
 
 	return User;
+})
+
+.factory('Notification', function($http, ApiEndpoint) {
+
+	var Notification = {};
+
+	Notification.find = function (user) {		
+		return $http.post(ApiEndpoint.url + '/notificacoes/listar?rnd='+new Date().getTime(), user);
+	};
+
+	return Notification;
 });

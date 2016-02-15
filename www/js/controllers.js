@@ -1,8 +1,8 @@
-angular.module('starter.controllers', ['ionic'])
+angular.module('starter.controllers', [])
 
-.controller('RegistrationCtrl', function($scope) {
+.controller('RegistrationCtrl', function($scope, $ionicPopup, $localstorage, User) {
 
-  ionic.Platform.ready(function(){
+  ionic.Platform.ready(function() {
     
     var push = PushNotification.init({
         "android": {
@@ -18,41 +18,60 @@ angular.module('starter.controllers', ['ionic'])
         } 
     });
     
-    push.on('registration', function(data) {            
-        document.getElementById("regId").innerHTML = data.registrationId;
-        // post para o servidor
+    push.on('registration', function(data) {
+        $localstorage.setObject('devId', data.registrationId);
+
+        var user  = $localstorage.getObject('usuario');        
+
+        User.insertDevId(user, data.registrationId)
+            .success(function (result) {
+                
+            })
+            .error(function (error) {                
+                $ionicPopup.alert({
+                    title: 'SIS CEJAM',
+                    template: 'Erro no registro do dispostivo!'
+                });
+            });
     });
         
     push.on('error', function(e) {
-        console.log("Erro ao registrar seu device!");
+        $ionicPopup.alert({
+            title: 'SIS CEJAM',
+            template: 'Erro ao registrar seu device!'
+        });
     });
 
   });
 })
 
-.controller('LoginCtrl', function($scope, $state, $ionicPopup, User) {
+.controller('LoginCtrl', function($scope, $state, $ionicPopup, $localstorage, User) {
 
-    $scope.signIn = function(user) {        
-        // console.log(User.find(user));
-            User.find(user)
-            .success(function (user) {
+    var usuario = $localstorage.getObject('usuario');
 
-                if(typeof user.Usuario !== 'object') {
-                    $ionicPopup.alert({
-                        title: 'SIS CEJAM',
-                        template: 'Usuário ou Senha Inválidos!'
-                    });
-                } else {
-                    $scope.user = user;
-                    console.log(user);
-                    $state.go('tabs.registration');
-                }                
-            })
-            .error(function (error) {                
-                $scope.user = {};
-                $scope.status = 'Unable to load customer data: ' + error.message;
-                console.log(error);
-            });        
+    if(!angular.equals({}, usuario)) {
+        $state.go('tabs.registration');
+    }
+
+    $scope.signIn = function(user) {
+        User.find(user)
+        .success(function (user) {
+            if(typeof user.Usuario !== 'object') {
+                $ionicPopup.alert({
+                    title: 'SIS CEJAM',
+                    template: 'Usuário ou Senha Inválidos!'
+                });
+            } else {
+                $localstorage.setObject('usuario', user);
+                $state.go('tabs.registration');
+            }
+        })
+        .error(function (error) {                
+            $scope.user = {};
+            $ionicPopup.alert({
+                title: 'SIS CEJAM',
+                template: 'Erro na conexão de internet!'
+            });
+        });
     };
-  
 });
