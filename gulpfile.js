@@ -49,3 +49,25 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+var replaceFiles = ['./www/js/services.js'];
+
+gulp.task('dev', function() {
+  return replace({
+    regex: "https://sis/cejam",
+    replacement: "http://localhost:8100/api",
+    paths: replaceFiles,
+    recursive: false,
+    silent: false,
+  });
+})
+
+gulp.task('prod', function() {
+  return replace({
+    regex: "http://localhost:8100/api",
+    replacement: "https://sis/cejam",
+    paths: replaceFiles,
+    recursive: false,
+    silent: false,
+  });
+})

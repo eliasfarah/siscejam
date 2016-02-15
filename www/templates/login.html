@@ -1,0 +1,18 @@
+<ion-view view-title="SIS CEJAM - Entrar">
+	<ion-content class="padding">
+		<div class="list">
+            <label class="item item-input">
+              <span class="input-label">Usuário</span>
+              <input type="text" ng-model="user.username">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Senha</span>
+              <input type="password" ng-model="user.password">
+            </label>
+          </div>
+          <div class="padding">
+            <button class="button button-block button-positive" ng-click="signIn(user)">
+              Entrar
+            </button>            
+	</ion-content>
+</ion-view>
