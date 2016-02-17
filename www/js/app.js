@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.filters', 'ionic.utils'])
 
 .run(function($ionicPlatform, $ionicPopup) {
 
@@ -50,17 +50,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: "templates/login.html",
     controller: 'LoginCtrl'
   })
+  .state('registration', {
+    url: "/registration",
+    templateUrl: "templates/registration.html",
+    controller: 'RegistrationCtrl'
+  })  
   .state('tabs', {
     url: "/tab",
     abstract: true,
     templateUrl: "templates/tabs.html"
   })
-  .state('tabs.registration', {
-    url: '/registration',
+  .state('tabs.notifications', {
+    url: '/notifications',
     views: {
-      'registration': {
-        templateUrl: 'templates/tab-registration.html',
-        controller: 'RegistrationCtrl'
+      'notifications': {
+        templateUrl: 'templates/tab-notifications.html',
+        controller: 'NotificationsCtrl'
+      }
+    }
+  })
+  .state('tabs.account', {
+    url: '/account',
+    views: {
+      'account': {
+        templateUrl: 'templates/tab-account.html',
+        controller: 'AccountCtrl'
       }
     }
   });

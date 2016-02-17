@@ -27,7 +27,7 @@ angular.module('starter.services', [])
 	var Notification = {};
 
 	Notification.find = function (user) {		
-		return $http.post(ApiEndpoint.url + '/notificacoes/listar?rnd='+new Date().getTime(), user);
+		return $http.get(ApiEndpoint.url + '/notificacoes/listar/'+user+'?rnd='+new Date().getTime());
 	};
 
 	return Notification;
