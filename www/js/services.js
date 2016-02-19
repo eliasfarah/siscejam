@@ -19,6 +19,11 @@ angular.module('starter.services', [])
 		return $http.post(ApiEndpoint.url + '/usuarios/insert_dev_id?rnd='+new Date().getTime(), data);
 	};
 
+	User.deleteDevId = function (devId) {
+		var data = { 'devId': devId }
+		return $http.post(ApiEndpoint.url + '/usuarios/delete_dev_id?rnd='+new Date().getTime(), data);		
+	};
+
 	return User;
 })
 

@@ -1,7 +1,7 @@
 <ion-view view-title="Notificações">
   <ion-content class="padding">
     <ul class="list">
-        <li class="item" ng-repeat="(key, notification) in notifications">        	
+        <li class="item" ng-repeat="(key, notification) in notifications.notificacoes">        	
         	<span ng-bind-html="notification.NotificacaoVw.msg | htmlToPlaintext"></span>
         </li>
     </ul>
