@@ -1,10 +1,11 @@
-<ion-view view-title="Conta">
+<ion-view cache-view="false" view-title="Conta">
 	<ion-content>
+
 		<div class="list card">
 		  <div class="item item-avatar">
 		    <img src="{{user.Colaborador.foto_colab}}">
-		    <h2>{{user.Usuario.nome}}</h2>
-		    <p>{{user.UnidadeExercicio.unidade}}</p>
+		    <h2><strong>{{user.Usuario.nome}}</strong></h2>
+		    <p>{{user.Colaborador.UnidadeExercicio.unidade}}</p>		    
 		  </div>
 
 		<button class="button button-full button-assertive" ng-click="signOut()">

@@ -1,1 +1,6 @@
 /* Empty. Add your own CSS if you like */
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

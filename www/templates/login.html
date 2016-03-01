@@ -1,16 +1,25 @@
-<ion-view view-title="SIS CEJAM - Entrar">
+<ion-view cache-view="false" view-title="SIS CEJAM - Entrar">
 	<ion-content class="padding">
-		<div class="list">
-            <label class="item item-input">              
-              <input type="text" autocapitalize="none" placeholder="Usuário" ng-model="user.username">
-            </label>
-            <label class="item item-input">
-              <input type="password" autocapitalize="none" placeholder="Senha" ng-model="user.password">
-            </label>
-          </div>
-          <div class="padding">
-            <button class="button button-block button-positive" ng-click="signIn(user)">
-              Entrar
-            </button>            
+
+    <br />
+    <img src="img/cejam.png" class="center" />
+    <br />
+    
+    <div class="list">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Usuário</span>
+        <input type="text" autocapitalize="none" placeholder="Usuário" ng-model="user.username">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Senha</span>
+        <input type="password" autocapitalize="none" placeholder="Senha" ng-model="user.password">
+      </label>
+    </div>
+
+    <div class="padding">
+      <button class="button button-block button-positive" ng-click="signIn(user)">
+        Entrar
+      </button>
+    </div>
 	</ion-content>
 </ion-view>
