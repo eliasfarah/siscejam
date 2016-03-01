@@ -59,6 +59,7 @@ angular.module('starter.controllers', [])
                                 title: 'SIS CEJAM',
                                 template: 'Verifique a conexão de internet!'
                             });
+                            $ionicLoading.hide();
                             $state.go('login');
                         });
                 } else {
@@ -66,11 +67,12 @@ angular.module('starter.controllers', [])
                 }
             }
         })
-        .error(function (error) {            
+        .error(function (error) {
             $ionicPopup.alert({
                 title: 'SIS CEJAM',
                 template: 'Erro na conexão de internet!'
             });
+            $ionicLoading.hide();
             $state.go('login');
         });
     };
@@ -168,15 +170,15 @@ angular.module('starter.controllers', [])
         User.deleteDevId(devId)
             .success(function (result) {                
                 $localstorage.setObject('usuario', {});
+                $ionicLoading.hide();
                 $state.go('login');
             })
-            .error(function (error) {
-                alert(error);
-                
+            .error(function (error) {                            
                 $ionicPopup.alert({
                     title: 'SIS CEJAM',
                     template: 'Erro na conexão de internet!'
                 });
+                $ionicLoading.hide();
             });        
     };
 });
