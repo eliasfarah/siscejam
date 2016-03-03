@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.filters', 'ionic.utils'])
 
-.run(function($ionicPlatform, $ionicPopup) {
+.run(function($ionicPlatform, $ionicPopup, $localstorage) {
 
 // Disable BACK button on home
   $ionicPlatform.registerBackButtonAction(function(event) {
@@ -24,6 +24,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   }, 100);
 
   $ionicPlatform.ready(function() {
+
+
+    var push = PushNotification.init({
+        android: {
+            senderID: "284873935680"
+        },
+        ios: {
+            alert: "true",
+            badge: true,
+            sound: 'false'
+        },
+        windows: {}
+    });
+
+    push.on('registration', function(data) {
+        $localstorage.setObject('devId', data.registrationId);
+    });
+
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

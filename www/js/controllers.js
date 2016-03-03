@@ -1,32 +1,12 @@
 angular.module('starter.controllers', [])
 
-.constant('PushConfiguration', {
-    "android": {
-        "senderID": "284873935680",
-        "forceShow" : "true"
-    },
-    "ios": {
-        "alert": "true", 
-        "badge": "true", 
-        "sound": "true"
-    }, 
-    "windows": {
-        
-    }
-})
-
 .controller('LoginCtrl', function($scope, $state, $ionicPopup, $localstorage, $ionicLoading, User) {
 
     $ionicLoading.hide();
     var usuario = $localstorage.getObject('usuario');
 
-    if(!angular.equals({}, usuario)) {        
-        var devId = $localstorage.getObject('devId');
-        if(!angular.equals({}, devId)) {            
-            $state.go('tabs.notifications');
-        } else {            
-            $state.go('registration');
-        }        
+    if(!angular.equals({}, usuario)) {
+        $state.go('tabs.notifications');
     }
 
     $scope.signIn = function(user) {
@@ -40,34 +20,41 @@ angular.module('starter.controllers', [])
 
         User.find(user)
         .success(function (user) {
+            alert(user);
             if(typeof user.Usuario !== 'object') {
+                alert('objeto invalido');
                 $ionicPopup.alert({
                     title: 'SIS CEJAM',
                     template: 'Usuário ou Senha Inválidos!'
                 });
+                $ionicLoading.hide();
             } else {
+                alert('objeto valido');
                 $localstorage.setObject('usuario', user);
                                 
                 var devId = $localstorage.getObject('devId');
+                alert(devId);
                 if(!angular.equals({}, devId)) {
                     User.insertDevId(user, devId)
                         .success(function (result) {
+                            alert('gravou');
                             $state.go('tabs.notifications');
                         })
                         .error(function (error) {
+                            alert('erro');
                             $ionicPopup.alert({
                                 title: 'SIS CEJAM',
                                 template: 'Verifique a conexão de internet!'
                             });
+                            $localstorage.setObject('usuario', {});
                             $ionicLoading.hide();
                             $state.go('login');
                         });
-                } else {
-                    $state.go('registration');
                 }
             }
         })
         .error(function (error) {
+            alert('eroor');
             $ionicPopup.alert({
                 title: 'SIS CEJAM',
                 template: 'Erro na conexão de internet!'
@@ -76,48 +63,6 @@ angular.module('starter.controllers', [])
             $state.go('login');
         });
     };
-})
-
-.controller('RegistrationCtrl', function($scope, $state, $ionicPopup, $localstorage, $ionicLoading, User, PushConfiguration) {
-
-  ionic.Platform.ready(function() {
-          
-    PushNotification.hasPermission(function(data) {
-        if (data.isEnabled) {
-            $state.go('tabs.notifications');
-        }
-    });
-
-    var push = PushNotification.init(PushConfiguration);
-
-    push.on('registration', function(data) {
-        
-        $localstorage.setObject('devId', data.registrationId);
-
-        var user  = $localstorage.getObject('usuario');
-
-        $ionicLoading.hide();
-        User.insertDevId(user, data.registrationId)
-            .success(function (result) {                
-                $state.go('tabs.notifications');
-            })
-            .error(function (error) {                
-                $ionicPopup.alert({
-                    title: 'SIS CEJAM',
-                    template: 'Verifique a conexão de internet!'
-                });
-                $state.go('login');
-            });
-    });
-        
-    push.on('error', function(e) {
-        $ionicPopup.alert({
-            title: 'SIS CEJAM',
-            template: 'Erro no registro do dispostivo!'
-        });
-    });
-
-  });
 })
 
 .controller('NotificationsCtrl', function($scope, $state, $sce, $ionicPopup, $localstorage, $ionicLoading, Notification) {
@@ -144,7 +89,7 @@ angular.module('starter.controllers', [])
     $scope.user = usuario;
     
     Notification.find(usuario.Usuario.id)
-    .success(function (notifications) {        
+    .success(function (notifications) {
         $scope.notifications = notifications;
     })
     .error(function (error) {
