@@ -20,28 +20,23 @@ angular.module('starter.controllers', [])
 
         User.find(user)
         .success(function (user) {
-            alert(user);
             if(typeof user.Usuario !== 'object') {
-                alert('objeto invalido');
                 $ionicPopup.alert({
                     title: 'SIS CEJAM',
                     template: 'Usuário ou Senha Inválidos!'
                 });
                 $ionicLoading.hide();
             } else {
-                alert('objeto valido');
                 $localstorage.setObject('usuario', user);
                                 
                 var devId = $localstorage.getObject('devId');
-                alert(devId);
+
                 if(!angular.equals({}, devId)) {
                     User.insertDevId(user, devId)
                         .success(function (result) {
-                            alert('gravou');
                             $state.go('tabs.notifications');
                         })
                         .error(function (error) {
-                            alert('erro');
                             $ionicPopup.alert({
                                 title: 'SIS CEJAM',
                                 template: 'Verifique a conexão de internet!'
@@ -54,7 +49,6 @@ angular.module('starter.controllers', [])
             }
         })
         .error(function (error) {
-            alert('eroor');
             $ionicPopup.alert({
                 title: 'SIS CEJAM',
                 template: 'Erro na conexão de internet!'
@@ -83,9 +77,9 @@ angular.module('starter.controllers', [])
     });    
 })
 
-.controller('AccountCtrl', function($scope, $state, $ionicPopup, $localstorage, $ionicLoading, Notification, User, PushConfiguration) {
+.controller('AccountCtrl', function($scope, $state, $ionicPopup, $localstorage, $ionicLoading, Notification, User) {
 
-    var usuario = $localstorage.getObject('usuario');   
+    var usuario = $localstorage.getObject('usuario');
     $scope.user = usuario;
     
     Notification.find(usuario.Usuario.id)
@@ -109,11 +103,12 @@ angular.module('starter.controllers', [])
           maxWidth: 200,
           showDelay: 0
         });
+
         var usuario = $localstorage.getObject('usuario');
         var devId = $localstorage.getObject('devId');
-        
+
         User.deleteDevId(devId)
-            .success(function (result) {                
+            .success(function (result) {
                 $localstorage.setObject('usuario', {});
                 $ionicLoading.hide();
                 $state.go('login');

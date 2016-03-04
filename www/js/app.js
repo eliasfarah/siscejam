@@ -32,8 +32,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         },
         ios: {
             alert: "true",
-            badge: true,
-            sound: 'false'
+            badge: "true",
+            sound: "true"
         },
         windows: {}
     });
